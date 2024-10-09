@@ -11,7 +11,8 @@ export default function Web3Layout({ children }) {
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <OktoProvider
         apiKey={OKTO_CLIENT_API_SECRET_KEY}
-        buildType={ENV === 'production' ? BuildType.PRODUCTION : BuildType.SANDBOX}
+        buildType={BuildType.SANDBOX}
+        // buildType={ENV === 'production' ? BuildType.PRODUCTION : BuildType.SANDBOX}
       >
         {children}
       </OktoProvider>
