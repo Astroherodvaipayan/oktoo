@@ -9,8 +9,7 @@
     "start": "next start",
     "start-static": "npx serve@latest out",
     "lint:check": "next lint",
-    "lint:fix": "next lint --fix",
-    "prepare": "husky"
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@hookstate/core": "^4.0.1",
