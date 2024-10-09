@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
+  "extends": ["next/core-web-vitals"],
   "rules": {
     "react-hooks/exhaustive-deps": "off",
     "@next/next/no-img-element": "off",
