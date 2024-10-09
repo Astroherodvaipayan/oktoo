@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shadcn Custom Theme Generate:
+ * https://ui-colorgen.vercel.app/custom-form
+ */
+@layer base {
+  :root {
+    --gradient: #5c258d;
+
+    --background: 289 37.699999999999996% 2.8%;
+    --foreground: 289 5.8% 96.75%;
+
+    --muted: 289 28.999999999999996% 10.5%;
+    --muted-foreground: 289 5.8% 53.5%;
+
+    --popover: 289 53.4% 4.55%;
+    --popover-foreground: 289 5.8% 96.75%;
+
+    --card: 289 53.4% 4.55%;
+    --card-foreground: 289 5.8% 96.75%;
+
+    --border: 289 28.999999999999996% 10.5%;
+    --input: 289 28.999999999999996% 10.5%;
+
+    --primary: 289 58% 35%;
+    --primary-foreground: 289 5.8% 96.75%;
+
+    --secondary: 289 28.999999999999996% 10.5%;
+    --secondary-foreground: 289 5.8% 96.75%;
+
+    --accent: 289 28.999999999999996% 10.5%;
+    --accent-foreground: 289 5.8% 96.75%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 289 5.8% 96.75%;
+
+    --ring: 289 58% 35%;
+
+    --color-1: 0 100% 63%;
+
+    --color-2: 270 100% 63%;
+
+    --color-3: 210 100% 63%;
+
+    --color-4: 195 100% 63%;
+
+    --color-5: 90 100% 63%;
+  }
+
+  /* .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  } */
+  .dark {
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .debug,
+  .debug > * {
+    @apply outline-dashed outline-green-400;
+  }
+  .form-error {
+    @apply text-sm italic mt-1 text-red-500 font-semibold;
+  }
+}
+
+li[data-name='suggested'] {
+  display: none;
+}
+
+.epr-icn-suggested {
+  display: none !important;
+}
+
+.EmojiPickerReact input {
+  height: 3rem;
+  font-size: 1.5rem;
+  padding-left: 2.8rem !important;
+}
+
+.EmojiPickerReact .epr-icn-search {
+  height: 2rem !important;
+  width: 2rem !important;
+  background-position-y: 0rem !important;
+  background-size: 2rem;
+}
