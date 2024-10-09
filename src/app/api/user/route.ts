@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         email: data.email,
         googleClientID: data.googleClientID,
         oktoUserId: data.oktoUserId,
-        oktoAccountCreatedAt: new Date(data.oktoAccountCreatedAt * 1000),
+        oktoAccountCreatedAt: new Date((data as any).oktoAccountCreatedAt * 1000),
         oktoAccountFreezed: !!data.oktoAccountFreezed,
         oktoFreezeReason: data.oktoFreezeReason,
         emojis: data.emojis,
