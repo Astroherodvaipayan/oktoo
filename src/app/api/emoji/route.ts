@@ -10,22 +10,27 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid input', status: 400 });
     }
 
-    const existingUser = await db.user.findFirst({
+    const userToModifyExists = await db.user.findFirst({
       where: {
         oktoUserId: data.oktoUserId,
         emojis: '',
       },
     });
 
-    if (!existingUser) {
-      return NextResponse.json({ status: 200, updated: false });
+    const userWithEmojis = await db.user.findFirst({
+      where: {
+        emojis: data.emojis,
+      },
+    });
+
+    if (!userToModifyExists || userWithEmojis) {
+      return NextResponse.json({ status: 409, updated: false, message: 'User already exists' });
     }
+
     await db.user.updateMany({ where: { oktoUserId: data.oktoUserId }, data: { emojis: data.emojis } });
 
     return NextResponse.json({ status: 200, updated: true });
   } catch (e) {
-    console.log({ e });
-    console.log({ e });
     return NextResponse.json({ error: 'Internal server error', status: 500 });
   }
 }

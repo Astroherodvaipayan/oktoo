@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { ArrowLeft, DeleteIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ClaimButton from './claim-button';
 
 const CreateUserHandle = () => {
@@ -41,7 +41,10 @@ const CreateUserHandle = () => {
         </Link>
         <div>
           <Link href="/" className="cursor-pointer">
-            <h1 className="text-primary text-2xl text-center font-bold hover:underline">🙂‍↔️ emoji pay</h1>
+            <div className="flex flex-row items-center gap-2 text-center justify-center">
+              <img className="h-6 w-6" src="/logo.webp" />
+              <h1 className="text-primary text-2xl text-center font-bold hover:underline">emoji pay</h1>
+            </div>
           </Link>
           <h1 className="text-2xl sm:text-4xl md:text-6xl text-center">Create your identity</h1>
           <h1 className="text-lg sm:text-xl md:text-2xl text-zinc-400 text-center">Pick at least 3 emojis</h1>
@@ -72,7 +75,7 @@ const CreateUserHandle = () => {
         autoFocusSearch
         previewConfig={{ showPreview: false }}
         width="100%"
-        height={500}
+        height={window.innerHeight / 2 ? 500 : window.innerHeight / 2}
         onEmojiClick={handleEmojiClick}
       />
     </div>

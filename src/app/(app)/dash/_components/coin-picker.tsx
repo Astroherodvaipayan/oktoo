@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { useAuthenticationStore } from '@/utils/auth-store';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { WalletAddress } from './portfolio-list';
 
 export const getIcon = (type: string) => {
   if (type === 'SOLANA_DEVNET' || type === 'SOLANA') {
@@ -28,7 +21,7 @@ export function CoinPicker({ selectedWallet, onValueChange }) {
   return (
     <div className="flex flex-col flex-1 px-2">
       <Select value={selectedWallet} onValueChange={onValueChange}>
-        <SelectTrigger className="w-[50%]">
+        <SelectTrigger className="w-full">
           <SelectValue placeholder={currentWallet?.network_name || 'Select a Coin'} />
         </SelectTrigger>
         <SelectContent>
@@ -43,8 +36,8 @@ export function CoinPicker({ selectedWallet, onValueChange }) {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <span className="text-sm break-all">
-        Currently with the wallet: <b className="text-xs break-all">{currentWallet?.address}</b>
+      <span className="text-sm break-all text-zinc-500">
+        Currently with the wallet: <WalletAddress address={currentWallet?.address} className="text-xs" />
       </span>
     </div>
   );

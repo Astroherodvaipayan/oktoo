@@ -51,8 +51,8 @@ function ConfettiEmoji({ onClick, loading }: { onClick: () => void; loading: boo
   };
 
   return (
-    <BlurFade delay={0}>
-      <div className="relative justify-center cursor-pointer w-full mt-4" onClick={handleClick}>
+    <BlurFade delay={0} className="rounded-full">
+      <div className="relative justify-center cursor-pointer w-full mt-4 rounded-full" onClick={handleClick}>
         <NeonGradientCard className="w-full" borderRadius={100}>
           <span className="text-xl">{loading ? 'Claiming...' : 'Claim now!'}</span>
         </NeonGradientCard>
@@ -64,22 +64,30 @@ function ConfettiEmoji({ onClick, loading }: { onClick: () => void; loading: boo
 const ClaimButton = ({ emojis }: { emojis: string }) => {
   const [authOpen, setAuthOpen] = useState(false);
   const [updatingUser, setUpdatingUser] = useState(false);
+  const [claimErrorReason, setClaimErrorReason] = useState('');
   const { user, saveInformation } = useAuthenticationStore();
   const router = useRouter();
+  console.log({ user });
+  console.log({ user });
   return (
     <>
       <AuthDialog
         emojis={emojis}
-        onClose={() => {
+        onClose={(createdUserButAlreadyCreatedEmojis) => {
           setAuthOpen(false);
+          if (createdUserButAlreadyCreatedEmojis) {
+            setClaimErrorReason('Emojis already claimed! Try with other ones...');
+          }
         }}
         open={authOpen}
       />
-      <div>
+      <div className="rounded-full">
         <ConfettiEmoji
           onClick={async () => {
+            setClaimErrorReason('');
             if (!user) {
               setAuthOpen(true);
+              return;
             }
             if (user.emojis) {
               const toastId = toast.loading('Redirecting to your profile...', {
@@ -104,28 +112,34 @@ const ClaimButton = ({ emojis }: { emojis: string }) => {
                   oktoUserId: user.oktoUserId,
                 }),
               });
+              const errorResponse = await response.json();
+              let errorText = '';
               if (!response.ok) {
-                const errorResponse = await response.json();
-                let errorText = 'Error creating user, contact support.';
-                if (errorResponse.status === 400) {
-                  errorText = 'Invalid input for user creation';
-                } else if (errorResponse.status === 409) {
-                  errorText = 'User already exists';
-                } else if (errorResponse.status === 500) {
-                  errorText = 'Internal server error during user creation';
-                }
-                toast.error('Error creating user', {
+                errorText = 'Error creating user, contact support.';
+              }
+              if (errorResponse.status === 400) {
+                errorText = 'Invalid input';
+              } else if (errorResponse.status === 409) {
+                errorText = 'User with Emojis already exists';
+              } else if (errorResponse.status === 500) {
+                errorText = 'Internal server error during user creation';
+              }
+              if (errorText) {
+                toast.dismiss(toastId);
+                setClaimErrorReason(errorText);
+                toast.error('Error assigning emojis', {
                   duration: 5000,
                   description: errorText,
                 });
-              } else {
-                saveInformation({ ...user, emojis });
-                router.push('/create');
-                console.log('User created successfully');
-                toast.success('Emojis claimed!', {
-                  duration: 5000,
-                });
+                return;
               }
+              saveInformation({ ...user, emojis });
+              router.push('/dash');
+              console.log('User created successfully');
+              toast.success('Emojis claimed!', {
+                duration: 5000,
+              });
+
               toast.dismiss(toastId);
             } catch (error) {
               console.log({ error });
@@ -135,6 +149,7 @@ const ClaimButton = ({ emojis }: { emojis: string }) => {
           }}
           loading={updatingUser}
         />
+        {!!claimErrorReason && <span className="text-red-500">{claimErrorReason}</span>}
       </div>
     </>
   );

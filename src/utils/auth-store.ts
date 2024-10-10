@@ -1,27 +1,23 @@
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { create } from 'zustand';
-import { User } from '@prisma/client';
-
-export interface WalletInfo {
-  network_name: string;
-  address: string;
-  success: boolean;
-}
+import { User, Wallet } from '@prisma/client';
 
 export interface AuthenticationState {
   user: User | null;
-  wallets: WalletInfo[] | null;
+  wallets: Wallet[] | null;
+  googleIdToken: string | null;
   saveInformation: (user: User) => void;
-  saveWalletsInformation: (wallets: WalletInfo[]) => void;
+  saveWalletsInformation: (wallets: Wallet[]) => void;
   removeInformation: () => void;
+  saveGoogleIdToken: (token: string) => void;
 }
 
 const initialState = {
   user: null,
   wallets: null,
+  googleIdToken: null,
 };
 
-// @TODO: Add `AuthenticationState` type to the create fn
 const useAuthenticationStore = create<AuthenticationState>()(
   persist(
     (set) => ({
@@ -29,7 +25,10 @@ const useAuthenticationStore = create<AuthenticationState>()(
       saveInformation: (user: User) => {
         set({ user });
       },
-      saveWalletsInformation: (wallets: WalletInfo[]) => {
+      saveGoogleIdToken: (newGoogleIdToken: string) => {
+        set({ googleIdToken: newGoogleIdToken });
+      },
+      saveWalletsInformation: (wallets: Wallet[]) => {
         set({ wallets });
       },
       removeInformation: () => {

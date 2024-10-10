@@ -13,12 +13,19 @@ export async function POST(req: NextRequest) {
 
     const existingUser = await db.user.findFirst({
       where: {
-        OR: [{ email: data.email }, { oktoUserId: data.oktoUserId }, { emojis: data.emojis }],
+        OR: [{ email: data.email }, { oktoUserId: data.oktoUserId }],
       },
     });
 
     if (existingUser) {
       return NextResponse.json({ error: 'User already exists', status: 409 });
+    }
+
+    console.log(existingUser, data, data.emojis);
+    console.log(existingUser, data, data.emojis);
+    console.log(existingUser, data, data.emojis);
+    if (existingUser && existingUser.emojis !== data.emojis) {
+      return NextResponse.json({ error: 'Emoji already claimed', status: 409 });
     }
 
     const createdUser = await db.user.create({
@@ -29,14 +36,14 @@ export async function POST(req: NextRequest) {
         oktoAccountCreatedAt: new Date((data as any).oktoAccountCreatedAt * 1000),
         oktoAccountFreezed: !!data.oktoAccountFreezed,
         oktoFreezeReason: data.oktoFreezeReason,
-        emojis: data.emojis,
+        emojis: data.emojis || '',
       },
     });
 
     return NextResponse.json({ status: 200, data: createdUser });
   } catch (e) {
-    console.log({ e });
-    console.log({ e });
+    console.log({ error: e });
+    console.log({ error: e });
     return NextResponse.json({ error: 'Internal server error', status: 500 });
   }
 }
@@ -52,6 +59,9 @@ export async function GET(req: NextRequest) {
     const userFound = await db.user.findFirst({
       where: {
         oktoUserId: oktoUserId,
+      },
+      include: {
+        wallets: true,
       },
     });
 

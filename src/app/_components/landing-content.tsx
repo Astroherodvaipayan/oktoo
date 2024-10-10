@@ -15,12 +15,12 @@ const AppCTASections = () => {
     <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
       <a href="/dash" className="rounded-lg bg-zinc-900 p-6 text-center transition-colors hover:bg-zinc-800">
         <span className="text-4xl mb-4">💸</span>
-        <h2 className="mb-1 text-base font-medium text-zinc-50">Send Tokens</h2>
+        <h2 className="mb-1 text-base font-medium text-zinc-50">Send Money</h2>
         <p className="text-sm text-zinc-500">Transfer any token using emojis as usernames</p>
       </a>
       <a href="/dash" className="rounded-lg bg-zinc-900 p-6 text-center transition-colors hover:bg-zinc-800">
         <span className="text-4xl mb-4">📥</span>
-        <h2 className="mb-1 text-base font-medium text-zinc-50">Receive Tokens</h2>
+        <h2 className="mb-1 text-base font-medium text-zinc-50">Receive Money</h2>
         <p className="text-sm text-zinc-500">Get tokens sent to your emoji username</p>
       </a>
       <a href="/dash" className="rounded-lg bg-zinc-900 p-6 text-center transition-colors hover:bg-zinc-800">
@@ -105,10 +105,11 @@ export default function LandingContent() {
           <div className="flex flex-grow flex-col bg-black">
             <div className="mx-auto max-w-3xl p-6">
               <header className="mx-auto mb-12 mt-24 flex max-w-[320px] flex-col items-center justify-center text-center">
-                <h1 className="text-8xl">🙂‍↔️</h1>
+                <img className="w-28 h-28 self-center" src="/logo.webp" />
                 <h1 className="mb-1.5 text-2xl text-zinc-100">emoji pay</h1>
                 <p className="text-zinc-400">
-                  send/receive crypto without a wallet. specify your emojis and you are ready to go.
+                  send crypto using only emojis. No wallets, no hassle—just your email and a unique, secure emoji
+                  handle.
                 </p>
                 <div className="mt-5 flex flex-col items-center">
                   <Link href="/create">
@@ -149,14 +150,22 @@ export default function LandingContent() {
       </main>
       <footer className="font-sans bg-muted border-t px-4 md:px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span>🙂‍↔️</span>
-          <span className="text-sm font-medium">emoji pay</span>
+          <div className="flex flex-row items-center gap-2 text-center justify-center">
+            <img className="h-4 w-4" src="/logo.webp" />
+            <h1 className="text-primary text-sm text-center font-bold hover:underline">emoji pay</h1>
+          </div>
         </div>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex  flex-col sm:flex-row  items-center gap-4 text-sm text-muted-foreground">
+          <Link href="https://x.com/emojipayit" prefetch={false}>
+            Terms & Conditions
+          </Link>
+          <Link href="https://x.com/emojipayit" prefetch={false}>
+            Privacy Policy
+          </Link>
           <Link href="https://x.com/emojipayit" prefetch={false}>
             Contact
           </Link>
-          <span>Built on {new Date().getFullYear()}</span>
+          <span className="text-white">© Copyright {new Date().getFullYear()}</span>
         </div>
       </footer>
     </>

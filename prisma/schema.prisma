@@ -19,5 +19,15 @@ model User {
     emojis              String
     oktoAccountFreezed Boolean
     oktoAccountCreatedAt DateTime
+    wallets             Wallet[]
     creationDate DateTime        @default(now())
+}
+
+
+model Wallet {
+    id              String    @id @default(cuid())
+    address         String
+    network_name    String
+    userId        String
+    user            User     @relation(fields: [userId], references: [id])
 }

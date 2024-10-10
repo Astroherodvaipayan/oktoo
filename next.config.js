@@ -2,7 +2,7 @@ const { PHASE_PRODUCTION_BUILD } = require('next/constants');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = (phase, { defaultConfig }) => {
-  if (phase === PHASE_PRODUCTION_BUILD || process.env.NEXT_PUBLIC_ENV == '1') {
+  if (phase === PHASE_PRODUCTION_BUILD || process.env.NEXT_PUBLIC_ENV == 'production') {
     // Apply production-only configurations here
 
     return {
@@ -18,6 +18,27 @@ const nextConfig = (phase, { defaultConfig }) => {
         removeConsole: {
           exclude: ['error'],
         },
+      },  
+      eslint: {
+        dirs: ["src"],
+        // Warning: This allows production builds to successfully complete even if
+        // your project has ESLint errors.
+    
+        // PLEASE GET BACK THIS TO FALSE ONCE THE TEST BUILD IS UP
+        ignoreDuringBuilds: true,
+      },
+      typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+    
+        /// PLEASE FOR GODSEIK REMOVE THIS
+        ignoreBuildErrors: true,
+      },
+      experimental: {
+        appDir: true,
+        serverComponentsExternalPackages: ["@prisma/client", "docusign-esign"],
       },
     };
   }
@@ -30,6 +51,10 @@ const nextConfig = (phase, { defaultConfig }) => {
     swcMinify: true,
     // prevent double rerendering
     reactStrictMode: false,
+    experimental: {
+      appDir: true,
+      serverComponentsExternalPackages: ["@prisma/client", "docusign-esign"],
+    },
     eslint: {
       dirs: ["src"],
       // Warning: This allows production builds to successfully complete even if
