@@ -6,9 +6,16 @@ import { ArrowLeft, DeleteIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ClaimButton from './claim-button';
+import { AllPageLoaderContent } from '../../dash/layout';
 
 const CreateUserHandle = () => {
   const [selectedEmojis, setSelectedEmojis] = useState<EmojiClickData[]>([]);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  //Wait till NextJS rehydration completes
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleEmojiClick = (emoji: EmojiClickData) => {
     setSelectedEmojis((currEmojis) => {
@@ -27,6 +34,10 @@ const CreateUserHandle = () => {
       return newEmojis;
     });
   };
+
+  if (!isHydrated) {
+    return <AllPageLoaderContent />;
+  }
 
   return (
     <div
