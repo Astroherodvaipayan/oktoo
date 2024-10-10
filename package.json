@@ -9,7 +9,8 @@
     "start": "next start",
     "start-static": "npx serve@latest out",
     "lint:check": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookstate/core": "^4.0.1",
