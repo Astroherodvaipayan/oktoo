@@ -1,11 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useAuthenticationStore } from '@/utils/auth-store';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { AuthDialog } from '../(app)/create/_components/authenticate-dialog';
+import { AuthDialog } from '../create/_components/authenticate-dialog';
 import { cn } from '@/lib/utils';
 import AnimatedShinyText from '@/components/ui/animated-shiny-text';
 import { RainbowButton } from '@/components/ui/rainbow-button';
