@@ -129,14 +129,14 @@ const SendTokens = () => {
       return;
     }
 
-    const supportedTokens = await getSupportedTokens();
-    const transferTokenAdd = supportedTokens.tokens.find((t) => t.network_name === destionationWallet.network_name);
-    if (!transferTokenAdd) {
-      toast.error(`Destination token address not found`);
-      setIsSending(false); // Reset loading state
-      return;
-    }
     try {
+      const supportedTokens = await getSupportedTokens();
+      const transferTokenAdd = supportedTokens.tokens.find((t) => t.network_name === destionationWallet.network_name);
+      if (!transferTokenAdd) {
+        toast.error(`Destination token address not found`);
+        setIsSending(false); // Reset loading state
+        return;
+      }
       const transferData = {
         network_name: destionationWallet.network_name,
         token_address: transferTokenAdd.token_address, //destionationWallet.address,
