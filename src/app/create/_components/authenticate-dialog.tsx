@@ -23,6 +23,7 @@ export function AuthDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({});
   const [isHydrated, setIsHydrated] = useState(false);
+
   useEffect(() => {
     setIsHydrated(true);
   }, []);

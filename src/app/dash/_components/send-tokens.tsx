@@ -69,11 +69,11 @@ const EmojiSheet = ({
 const SendTokens = () => {
   const { wallets } = useAuthenticationStore();
   const [selectedWallet, setSelectedWallet] = useState(wallets?.[0]?.address || '');
-  const [destination, setDestination] = useState(''); // Created state for the input of destination
+  const [destination, setDestination] = useState('');
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
-  const [amount, setAmount] = useState(undefined);
-  const [isSending, setIsSending] = useState(false); // Added loading state
-  const { getSupportedTokens, transferTokensWithJobStatus } = useOkto();
+  const [amount, setAmount] = useState(0);
+  const [isSending, setIsSending] = useState(false);
+  const { getSupportedTokens, transferTokens } = useOkto();
 
   useEffect(() => {
     if (wallets?.[0]?.address && !selectedWallet) {
@@ -94,8 +94,10 @@ const SendTokens = () => {
   };
 
   const handleTransferTokens = async () => {
-    setIsSending(true); // Set loading state
+    console.log('Starting token transfer process');
+    setIsSending(true);
     const foundWallet = wallets.find((w) => w.address === selectedWallet);
+    console.log('Found wallet:', foundWallet);
     let destionationWallet: Wallet = null;
     try {
       const response = await fetch(
@@ -107,6 +109,7 @@ const SendTokens = () => {
           },
         },
       );
+      console.log('Fetch response:', response);
       if (!response.ok) {
         toast.error('Destionation user wallet not found', {
           duration: 5000,
@@ -116,6 +119,7 @@ const SendTokens = () => {
         return;
       } else {
         const responseData = await response.json();
+        console.log('Response data:', responseData);
         if (responseData?.data) {
           destionationWallet = responseData?.data;
         }
@@ -131,21 +135,24 @@ const SendTokens = () => {
 
     try {
       const supportedTokens = await getSupportedTokens();
+      console.log('Supported tokens:', supportedTokens);
       const transferTokenAdd = supportedTokens.tokens.find((t) => t.network_name === destionationWallet.network_name);
+      console.log('Transfer token address:', transferTokenAdd);
       if (!transferTokenAdd) {
         toast.error(`Destination token address not found`);
-        setIsSending(false); // Reset loading state
+        setIsSending(false);
         return;
       }
       const transferData = {
         network_name: destionationWallet.network_name,
-        token_address: transferTokenAdd.token_address, //destionationWallet.address,
+        token_address: transferTokenAdd.token_address,
         quantity: amount.toString(),
         recipient_address: destionationWallet.address,
       };
-      const response = await transferTokensWithJobStatus(transferData);
-      console.log(response);
-      if (response.order_id) {
+      console.log('Transfer data:', transferData);
+      const response = await transferTokens(transferData);
+      console.log('Transfer response:', response);
+      if (response.orderId) {
         toast.success('Tokens transferred successfully!');
       } else {
         toast.error(`Failed to transfer tokens`);
@@ -153,7 +160,7 @@ const SendTokens = () => {
     } catch (error) {
       toast.error(`Failed to transfer tokens: ${error.message}`);
     }
-    setIsSending(false); // Reset loading state
+    setIsSending(false);
   };
 
   return (

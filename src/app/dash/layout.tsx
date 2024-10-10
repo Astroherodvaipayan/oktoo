@@ -23,7 +23,7 @@ const WrapperRefresh = ({ children }) => {
 
   useEffect(() => {
     if (!googleIdToken) {
-      return;
+      return () => {};
     }
     setIsLoading(true);
     authenticate(googleIdToken, async (authResponse, error) => {
@@ -55,6 +55,7 @@ const AppLayout = ({ children }) => {
   if (!mounted) {
     return <AllPageLoaderContent />;
   }
+  return children;
   return <WrapperRefresh>{children}</WrapperRefresh>;
 };
 
