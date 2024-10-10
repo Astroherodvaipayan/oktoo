@@ -21,16 +21,25 @@ export function AuthDialog({
   const { saveWalletsInformation, saveGoogleIdToken } = useAuthenticationStore();
   const [finishLogin, setFinishLogin] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState({});
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
+    if (!isHydrated) {
+      return () => {};
+    } else {
+      setWindowDimensions(getWindowDimensions());
+    }
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isHydrated]);
 
   const handleGoogleLogin = async (credentialResponse) => {
     console.log('Google login response:', credentialResponse);
@@ -230,6 +239,10 @@ export function AuthDialog({
       {isLoading && <div className="text-center">Authenticating your account...</div>}
     </div>
   );
+
+  if (!isHydrated) {
+    return null;
+  }
 
   // which is tailwind "lg"
   if (windowDimensions.width < 1024) {

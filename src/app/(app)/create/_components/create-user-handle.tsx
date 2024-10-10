@@ -12,7 +12,6 @@ const CreateUserHandle = () => {
   const [selectedEmojis, setSelectedEmojis] = useState<EmojiClickData[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  //Wait till NextJS rehydration completes
   useEffect(() => {
     setIsHydrated(true);
   }, []);
