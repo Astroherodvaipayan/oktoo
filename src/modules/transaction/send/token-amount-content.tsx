@@ -65,6 +65,7 @@ const TokenAmountContent = ({
           onChange={handleInputChange}
           onPaste={handlePaste}
           placeholder="0.00"
+          autoFocus={false}
         />
         <div className="h-[50vh] max-w-[300px] mt-2 grid grid-cols-3 ">
           {chars.map((c, index) => (
@@ -73,7 +74,7 @@ const TokenAmountContent = ({
               className="flex cursor-pointer rounded-xl hover:text-zinc-400 items-center justify-center aspect-square text-center hover:bg-primary/90"
               onClick={() => handleKeyboardClick(c)}
             >
-              <span>{c}</span>
+              <span style={{ height: '100%', width: '100%', alignContent: 'center' }}>{c}</span>
             </div>
           ))}
         </div>
