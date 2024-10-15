@@ -38,7 +38,6 @@ const TransactionInlinePreviewCard = ({ transaction }: { transaction: Transactio
 
   // Format creation date to a more readable format (e.g., 9 days ago)
   const date = new Date(creationDate);
-  const timeDiff = Math.floor((Date.now() - date.getTime()) / (1000 * 3600 * 24)); // in days
 
   // Determine if the current user is the sender or receiver
   const isSender = user.id === from.id;
@@ -47,24 +46,24 @@ const TransactionInlinePreviewCard = ({ transaction }: { transaction: Transactio
   let message: string;
   if (type === 'withdraw') {
     // Handle withdrawal case
-    message = `You withdrew ${amount} ${foundToken.symbol} to ${withdrawDestinationAddress}`;
+    message = `You withdrew ${amount} ${foundToken?.symbol} to ${withdrawDestinationAddress}`;
   } else {
     // Handle regular transfer case
     message = isSender
-      ? `You(${user.emojis}) sent ${amount} ${foundToken.symbol} to ${to.emojis}`
-      : `${to.emojis} received ${amount} ${foundToken.symbol} from You(${user.emojis})`;
+      ? `You(${user.emojis}) sent ${amount} ${foundToken?.symbol} to ${to.emojis}`
+      : `${to.emojis} received ${amount} ${foundToken?.symbol} from You(${user.emojis})`;
   }
 
   const relativeTime = getRelativeTime(date);
   return (
     <div className="w-full rounded-xl hover:bg-accent cursor-pointer flex flex-row gap-2 px-4 py-4">
       <div>
-        <img src={foundToken.image} className="rounded-full w-5 h-5 pt-0.5" />
+        <img src={foundToken?.image} className="rounded-full w-5 h-5 pt-0.5" />
       </div>
       <div className="flex-1">
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center gap-4">
           <div className="flex-1 text-sm break-all">{message}</div>
-          <div className="flex row gap-2 text-zinc-400">
+          <div className="flex row gap-2 text-zinc-400  self-start">
             <div className="text-sm">{relativeTime}</div>
           </div>
         </div>

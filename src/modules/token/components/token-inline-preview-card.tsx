@@ -26,7 +26,7 @@ const TokenInlinePreviewCard = ({
       <div className="flex-1">
         <div className="w-full space-between flex flex-row">
           <div className="flex-1 text-sm">
-            {title} ({symbol})
+            {title} ({symbol || ''})
           </div>
           <div className="flex row gap-2">
             <div className="w-[100px] md:w-[300px] h-5 bg-zinc-800 rounded-xl overflow-hidden">

@@ -1,3 +1,4 @@
+import { AuthDialog } from '@/app/create/_components/authenticate-dialog';
 import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import { useTokenValuesManagement } from '@/modules/token/store/token-values-management';
 import { redirect } from 'next/navigation';
@@ -13,7 +14,7 @@ const InitialLoaderComponent = ({ onDataCorrectlyFetched }: { onDataCorrectlyFet
   const [errorOnWalletsRetrieval, setErrorOnWalletsRetrieval] = useState<string>();
   const [errorOnTokenPricesRetrieval, setErrorOnTokenPricesRetrieval] = useState<string>();
   const [errorOnPortfolioRetrieval, setErrorOnPortfolioRetrieval] = useState<string>();
-
+  const [needReauth, setNeedsReauth] = useState(false);
   const fetchTokensPrices = async () => {
     try {
       const response = await fetch('/api/token/syncAllValues');
@@ -79,7 +80,11 @@ const InitialLoaderComponent = ({ onDataCorrectlyFetched }: { onDataCorrectlyFet
       const portfolio = await getPortfolio();
       savePortfolio(portfolio.tokens || []);
     } catch (error) {
-      console.error('Error fetching portfolio:', error);
+      console.log({ error: error, errorResponse: error?.response?.data });
+      if (error?.response?.data?.error?.code === 401) {
+        setNeedsReauth(true);
+        return { needReauth: true };
+      }
       setErrorOnPortfolioRetrieval('Error fetching portfolio.');
     }
   };
@@ -89,15 +94,30 @@ const InitialLoaderComponent = ({ onDataCorrectlyFetched }: { onDataCorrectlyFet
       window.location.href = '/create';
       return;
     }
-    await Promise.allSettled([fetchUserWallets(), fetchTokensPrices(), fetchPortfolio()]);
+    const promises = await Promise.allSettled([fetchUserWallets(), fetchTokensPrices(), fetchPortfolio()]);
     setIsDataLoading(false);
-    onDataCorrectlyFetched();
+    if (promises[2].status === 'fulfilled' && !promises[2].value?.needReauth) {
+      onDataCorrectlyFetched();
+    }
   };
 
   useEffect(() => {
     getInitialDataFetching();
   }, []);
 
+  if (needReauth) {
+    return (
+      <AuthDialog
+        emojis={user?.emojis || ''}
+        open={needReauth}
+        onClose={() => {}}
+        onSuccessfullyLogin={() => {
+          setNeedsReauth(false);
+          getInitialDataFetching();
+        }}
+      />
+    );
+  }
   if (errorOnWalletsRetrieval || errorOnTokenPricesRetrieval || errorOnPortfolioRetrieval) {
     return (
       <div className="text-center text-red-500">

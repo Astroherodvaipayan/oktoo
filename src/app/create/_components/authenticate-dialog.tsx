@@ -12,10 +12,12 @@ export function AuthDialog({
   open,
   onClose,
   emojis,
+  onSuccessfullyLogin,
 }: {
   open: boolean;
   onClose: (createdUserButAlreadyCreatedEmojis?: boolean) => void;
   emojis: string;
+  onSuccessfullyLogin?: () => void;
 }) {
   const { authenticate, getUserDetails, createWallet } = useOkto();
   const { saveWalletsInformation, saveGoogleIdToken } = useAuthenticationStore();
@@ -125,6 +127,7 @@ export function AuthDialog({
           onClose();
         } else {
           router.push('/dash');
+          onSuccessfullyLogin?.();
         }
         return;
       }
@@ -254,7 +257,7 @@ export function AuthDialog({
           if (!value) onClose();
         }}
       >
-        <SheetContent side="bottom" className=" font-sans">
+        <SheetContent side="bottom" className="mx-auto font-sans">
           <SheetHeader>
             <img className="w-28 h-28 self-center" src="/logo.webp" />
             <h1 className="mb-1.5 text-2xl text-zinc-100 text-center">emoji pay</h1>
