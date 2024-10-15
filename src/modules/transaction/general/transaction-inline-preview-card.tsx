@@ -41,6 +41,7 @@ const TransactionInlinePreviewCard = ({ transaction }: { transaction: Transactio
 
   // Determine if the current user is the sender or receiver
   const isSender = user.id === from.id;
+  const isReceiver = user.id === to.id;
 
   const foundToken = tokens.find((t) => t.symbol.toLowerCase() === transaction.tokenSymbol.toLowerCase());
   let message: string;
@@ -49,9 +50,12 @@ const TransactionInlinePreviewCard = ({ transaction }: { transaction: Transactio
     message = `You withdrew ${amount} ${foundToken?.symbol} to ${withdrawDestinationAddress}`;
   } else {
     // Handle regular transfer case
+
     message = isSender
-      ? `You(${user.emojis}) sent ${amount} ${foundToken?.symbol} to ${to.emojis}`
-      : `${to.emojis} received ${amount} ${foundToken?.symbol} from You(${user.emojis})`;
+      ? `You sent ${amount} ${foundToken?.symbol} to ${to.emojis}`
+      : isReceiver
+        ? `You received ${amount} ${foundToken?.symbol} from ${from.emojis}`
+        : `${to.emojis} received ${amount} ${foundToken?.symbol} from ${from.emojis}`;
   }
 
   const relativeTime = getRelativeTime(date);
