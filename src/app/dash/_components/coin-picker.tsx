@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useAuthenticationStore } from '@/utils/auth-store';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { WalletAddress } from './portfolio-list';
 

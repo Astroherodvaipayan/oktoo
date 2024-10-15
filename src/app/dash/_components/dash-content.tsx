@@ -1,13 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useAuthenticationStore } from '@/utils/auth-store';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import Link from 'next/link';
-import { useOkto } from 'okto-sdk-react';
 import { useEffect, useState } from 'react';
 import PortfolioList from './portfolio-list';
 import SendTokens from './send-tokens';
-import OrderList from './order-list';
+import OrderList from '@/modules/transaction/history/order-list';
 
 const DashContent = () => {
   const { removeInformation, wallets, user } = useAuthenticationStore();

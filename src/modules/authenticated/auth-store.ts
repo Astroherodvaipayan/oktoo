@@ -1,13 +1,18 @@
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { create } from 'zustand';
-import { User, Wallet } from '@prisma/client';
+import { Transaction, User, Wallet } from '@prisma/client';
+import { Portfolio } from 'okto-sdk-react';
 
 export interface AuthenticationState {
   user: User | null;
   wallets: Wallet[] | null;
+  portfolio: Portfolio[] | null;
+  activity: Transaction[] | null;
   googleIdToken: string | null;
+  savePortfolio: (newPortfolio: Portfolio[] | null) => void;
   saveInformation: (user: User) => void;
-  saveWalletsInformation: (wallets: Wallet[]) => void;
+  saveWalletsInformation: (wallets: Wallet[] | null) => void;
+  saveActivityTransactions: (txs: Transaction[] | null) => void;
   removeInformation: () => void;
   saveGoogleIdToken: (token: string) => void;
 }
@@ -15,6 +20,8 @@ export interface AuthenticationState {
 const initialState = {
   user: null,
   wallets: null,
+  portfolio: null,
+  activity: null,
   googleIdToken: null,
 };
 
@@ -28,8 +35,14 @@ const useAuthenticationStore = create<AuthenticationState>()(
       saveGoogleIdToken: (newGoogleIdToken: string) => {
         set({ googleIdToken: newGoogleIdToken });
       },
-      saveWalletsInformation: (wallets: Wallet[]) => {
+      saveWalletsInformation: (wallets: Wallet[] | null) => {
         set({ wallets });
+      },
+      saveActivityTransactions: (txs: Transaction[] | null) => {
+        set({ activity: txs });
+      },
+      savePortfolio: (newPortfolio: Portfolio[] | null) => {
+        set({ portfolio: newPortfolio });
       },
       removeInformation: () => {
         set(initialState);

@@ -76,7 +76,11 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ status: 200, data: userFound });
+    if (!userFound) {
+      return NextResponse.json({ error: 'User not found', status: 404 });
+    }
+
+    return NextResponse.json({ status: 200, wallets: userFound.wallets || [] });
   } catch (error) {
     console.log({ error });
     return NextResponse.json({ error: 'Internal server error', status: 500 });

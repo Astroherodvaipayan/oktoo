@@ -1,18 +1,18 @@
 'use client';
-import { useEffect } from 'react';
-import DashContent from './_components/dash-content';
-import { useAuthenticationStore } from '@/utils/auth-store';
-import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import DashboardContent from '@/modules/user/components/dashboard/dashboard-content';
+import { AllPageLoaderContent } from '@/modules/layout/components/all-screen-loader-content';
 
 export default function Dash() {
-  const { user } = useAuthenticationStore();
-  // useEffect works because Layout was in charge of
-  // making sure we have already mounted the route
-  useEffect(() => {
-    if (!user?.emojis) {
-      redirect('/create');
-    }
-  }, [user?.emojis]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  return <DashContent />;
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  return (
+    <AllPageLoaderContent appIsMounted={isHydrated} shouldMakeInitialAuthFetching>
+      <DashboardContent />
+    </AllPageLoaderContent>
+  );
 }

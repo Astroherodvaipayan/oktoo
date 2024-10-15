@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BlurFade from '@/components/ui/blur-fade';
 import { NeonGradientCard } from '@/components/ui/neon-gradient-card';
 import confetti from 'canvas-confetti';
-import { useAuthenticationStore } from '@/utils/auth-store';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import { AuthDialog } from './authenticate-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';

@@ -4,9 +4,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useOkto } from 'okto-sdk-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
-import { useAuthenticationStore } from '@/utils/auth-store';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { getWindowDimensions } from '../../dash/_components/send-tokens';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 
 export function AuthDialog({
   open,

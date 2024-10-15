@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthenticationStore } from '@/utils/auth-store';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

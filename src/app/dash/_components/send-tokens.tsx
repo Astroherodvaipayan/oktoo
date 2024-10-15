@@ -2,13 +2,12 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAuthenticationStore } from '@/utils/auth-store';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import { useOkto } from 'okto-sdk-react';
 import { CoinPicker } from './coin-picker';
 import { useEffect, useState } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Popover, PopoverContent } from '@/components/ui/popover';
 import { toast } from 'sonner';
 import { Wallet } from '@prisma/client';
 
@@ -111,7 +110,7 @@ const SendTokens = () => {
       );
       console.log('Fetch response:', response);
       if (!response.ok) {
-        toast.error('Destionation user wallet not found', {
+        toast.error('Destination user wallet not found', {
           duration: 5000,
           description: 'There might be an issue with the destionation wallet',
         });
@@ -122,6 +121,13 @@ const SendTokens = () => {
         console.log('Response data:', responseData);
         if (responseData?.data) {
           destionationWallet = responseData?.data;
+        } else {
+          toast.error('Destination user wallet not found', {
+            duration: 5000,
+            description: 'There might be an issue with the destionation wallet',
+          });
+          setIsSending(false); // Reset loading state
+          return;
         }
       }
     } catch (error) {
@@ -219,7 +225,7 @@ const SendTokens = () => {
           </div>
           <Button
             className="w-full"
-            disabled={!destination.length || !selectedWallet || !amount || isSending} // Disable button when sending
+            disabled={!destination.length || !selectedWallet || !amount || isSending}
             onClick={handleTransferTokens}
           >
             {isSending ? 'Sending...' : '🏌️ Send now!'}

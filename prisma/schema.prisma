@@ -11,23 +11,41 @@ datasource db {
 }
 
 model User {
-    id              String    @id @default(cuid())
-    googleClientID String
-    email         String
-    oktoUserId     String
-    oktoFreezeReason     String
-    emojis              String
-    oktoAccountFreezed Boolean
-    oktoAccountCreatedAt DateTime
-    wallets             Wallet[]
-    creationDate DateTime        @default(now())
+    id                    String      @id @default(cuid())
+    googleClientID         String
+    email                 String
+    oktoUserId            String
+    oktoFreezeReason      String
+    emojis                String
+    oktoAccountFreezed    Boolean
+    oktoAccountCreatedAt  DateTime
+    wallets               Wallet[]
+    sentTransactions      Transaction[] @relation("fromUser")
+    receivedTransactions  Transaction[] @relation("toUser")
+    creationDate          DateTime     @default(now())
 }
-
 
 model Wallet {
     id              String    @id @default(cuid())
     address         String
     network_name    String
-    userId        String
-    user            User     @relation(fields: [userId], references: [id])
+    userId          String
+    user            User      @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+    id              String    @id @default(cuid())
+    orderId         String
+    fromUserId      String
+    from            User      @relation("fromUser", fields: [fromUserId], references: [id])
+    toUserId        String
+    to              User      @relation("toUser", fields: [toUserId], references: [id])
+    amount          String
+    network_name    String
+    tokenSymbol     String
+    totalInDollars  Float
+    tokenInDollar   Float
+    creationDate    DateTime  @default(now())
+    withdrawDestinationAddress String
+    type            String
 }

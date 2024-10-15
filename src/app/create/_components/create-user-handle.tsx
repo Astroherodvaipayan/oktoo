@@ -6,7 +6,7 @@ import { ArrowLeft, DeleteIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ClaimButton from './claim-button';
-import { AllPageLoaderContent } from '../../dash/layout';
+import { AllPageLoaderContent, AllPageLoaderInnerContent } from '@/modules/layout/components/all-screen-loader-content';
 
 const CreateUserHandle = () => {
   const [selectedEmojis, setSelectedEmojis] = useState<EmojiClickData[]>([]);
@@ -35,7 +35,7 @@ const CreateUserHandle = () => {
   };
 
   if (!isHydrated) {
-    return <AllPageLoaderContent />;
+    return <AllPageLoaderInnerContent />;
   }
 
   return (

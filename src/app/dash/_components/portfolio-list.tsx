@@ -1,10 +1,13 @@
-import { useAuthenticationStore } from '@/utils/auth-store';
-import { PortfolioData, useOkto } from 'okto-sdk-react';
+import { useAuthenticationStore } from '@/modules/authenticated/auth-store';
 import { useEffect, useState } from 'react';
-import { getIcon } from './coin-picker';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Clipboard } from 'lucide-react';
+import { getTokensList } from '@/modules/token/utils';
+import TokenInlinePreviewCard from '@/modules/token/components/token-inline-preview-card';
+import { useTokenValuesManagement } from '@/modules/token/store/token-values-management';
+import { getTokenPrice, useTotalPortfolioValue } from '@/modules/token/hooks/get-total-porfolio-value';
+import TokenDetailsSheet from '@/modules/token/components/token-details-sheet';
 
 export const WalletAddress = ({ address, className }: { address: string; className?: string }) => {
   const [showCopyButton, setShowCopyButton] = useState(false);
@@ -34,41 +37,42 @@ export const WalletAddress = ({ address, className }: { address: string; classNa
   );
 };
 
+const tokens = getTokensList(process.env.NEXT_PUBLIC_ENV);
 const PortfolioList = () => {
-  const [retrievedPortfolio, setRetrieverPortfolio] = useState<PortfolioData>();
-  const { wallets } = useAuthenticationStore();
-  const { getPortfolio } = useOkto();
-  async function fetchPortfolio() {
-    try {
-      const portfolio = await getPortfolio();
-      setRetrieverPortfolio(portfolio);
-    } catch (error) {}
-    return;
-  }
-
-  useEffect(() => {
-    fetchPortfolio();
-  }, []);
-
-  if (!wallets) return <div>No wallets created with this account yet...</div>;
+  const { portfolio } = useAuthenticationStore();
+  const tokenValues = useTokenValuesManagement();
+  const [tokenSymbolDetails, setTokenSymbolDetails] = useState('');
+  const totalPortfolioValue = useTotalPortfolioValue();
 
   return (
-    <div id="portfolio">
-      {wallets.map((wallet) => {
-        const balanceOfToken = retrievedPortfolio?.tokens?.find((token) => wallet.network_name === token.network_name);
+    <div>
+      {tokens.map((item, index) => {
+        // Find portfolio entry for this token
+        const portfolioItem = portfolio.find((p) => p.token_name.toLowerCase() === item.symbol.toLowerCase());
+        const tokenPriceInUsd = portfolioItem ? getTokenPrice(portfolioItem, tokenValues) : 0;
+        // Calculate the percentage of this token's value relative to the total portfolio
+        const percentageOfPortfolio = totalPortfolioValue > 0 ? (tokenPriceInUsd / totalPortfolioValue) * 100 : 0;
         return (
-          <div className="flex flex-row gap-2" key={wallet.address}>
-            <img src={getIcon(wallet.network_name)} className="mt-1 w-4 h-4" />
-            <div>
-              <h2>{wallet.network_name}</h2>
-              <WalletAddress address={wallet.address} />
-              <h2 className="text-zinc-400">
-                {balanceOfToken ? `${balanceOfToken.quantity} ${balanceOfToken.token_name}` : 'Nothing'}
-              </h2>
-            </div>
-          </div>
+          <TokenInlinePreviewCard
+            key={`token-item-${index}`}
+            totalInUsd={`${tokenPriceInUsd.toFixed(2)}`} // Format to 2 decimal places
+            img={item.image}
+            percent={percentageOfPortfolio}
+            title={item.name}
+            symbol={item.symbol}
+            onClick={() => {
+              setTokenSymbolDetails(item.symbol);
+            }}
+          />
         );
       })}
+      <TokenDetailsSheet
+        open={!!tokenSymbolDetails}
+        setOpen={(isSheetOpen) => {
+          if (!isSheetOpen) setTokenSymbolDetails('');
+        }}
+        tokenSymbol={tokenSymbolDetails}
+      />
     </div>
   );
 };

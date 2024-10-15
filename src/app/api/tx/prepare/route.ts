@@ -19,11 +19,15 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    if (!userFound) {
+      return NextResponse.json({ error: 'User not found', status: 404 });
+    }
+
     const foundWallet = userFound?.wallets?.find((w) => w.network_name === destNetwork);
     if (!foundWallet) {
       return NextResponse.json({ error: 'Wallet not found...', status: 409 });
     }
-    return NextResponse.json({ status: 200, data: foundWallet });
+    return NextResponse.json({ status: 200, user: userFound, foundWallet });
   } catch (error) {
     console.log({ error });
     return NextResponse.json({ error: 'Internal server error', status: 500 });
