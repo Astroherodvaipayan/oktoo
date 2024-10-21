@@ -17,7 +17,14 @@ const NewRequestTokenSheet = ({ open, setOpen }: { open: boolean; setOpen: (newV
           <Input name="description" placeholder="Description" />
           <Input name="emojis-separated-by-comma" placeholder="Emojis (comma-separated)" />
           <Input name="ammount" placeholder="Amount" />
-          <Button className="w-full">Create</Button>
+          <Button
+            className="w-full"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Create
+          </Button>
         </div>
       </SheetContent>
     </Sheet>
