@@ -6,13 +6,13 @@ import { Metadata } from 'next';
 import Web3Layout from './_components/web3-layout';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://emojipay.it'),
-  title: 'Emojipay - Send crypto using only emojis.',
+  metadataBase: new URL('https://oktopay.it'),
+  title: 'oktopay - Send crypto using only emojis.',
   description:
     'Send crypto using only emojis. No wallets, no hassle—just your email and a unique, secure emoji handle.',
-  keywords: ['emojipay', 'solana', 'cryptocurrency', 'emoji', 'payment', 'wallet'],
+  keywords: ['oktopay', 'solana', 'cryptocurrency', 'emoji', 'payment', 'wallet'],
   openGraph: {
-    title: 'Emojipay - Pay with Emojis',
+    title: 'oktopay - Pay with Emojis',
     description:
       'Send crypto using only emojis. No wallets, no hassle—just your email and a unique, secure emoji handle',
     images: '/banner/logo.webp',

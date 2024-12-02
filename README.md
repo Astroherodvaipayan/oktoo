@@ -1,12 +1,12 @@
-# EmojiPay
+# oktopay
 
 ## Live Link
 
-[emojipay.it](https://emojipay.vercel.app/)
+[oktopay.it](https://oktopay.vercel.app/)
 
 ## The Problem
 
-Building a seamless, user-friendly platform for sending and receiving payments in Web3 can be challenging, especially when it involves managing wallets, assets, and complex blockchain technologies. EmojiPay solves this problem by offering a simple and intuitive interface for users to transact with emojis, leveraging Okto’s embedded wallet for a smooth and secure experience.
+Building a seamless, user-friendly platform for sending and receiving payments in Web3 can be challenging, especially when it involves managing wallets, assets, and complex blockchain technologies. oktopay solves this problem by offering a simple and intuitive interface for users to transact with emojis, leveraging Okto’s embedded wallet for a smooth and secure experience.
 
 ## Demo video
 
@@ -14,7 +14,7 @@ Building a seamless, user-friendly platform for sending and receiving payments i
 
 ## Proposed Solution
 
-EmojiPay is a Web3 payments platform where users can create a unique emoji-based username (3-5 emojis) and use it to send and receive payments. The platform integrates Okto’s wallet services, enabling users to manage their blockchain assets without needing deep technical knowledge of blockchain operations. Users can:
+oktopay is a Web3 payments platform where users can create a unique emoji-based username (3-5 emojis) and use it to send and receive payments. The platform integrates Okto’s wallet services, enabling users to manage their blockchain assets without needing deep technical knowledge of blockchain operations. Users can:
 
 - Create emoji-based usernames to handle transactions.
 - View balance, portfolio, and order history (via Okto).

@@ -33,7 +33,7 @@ const AppCTASections = () => {
         <p className="text-sm text-zinc-500">Manage your emoji username and settings</p>
       </a>
       <a
-        href="https://x.com/emojipayit"
+        href="https://x.com/oktopayit"
         className="rounded-lg bg-zinc-900 p-6 text-center transition-colors hover:bg-zinc-800"
       >
         <span className="text-4xl mb-4">❓</span>
@@ -155,13 +155,13 @@ export default function LandingContent() {
           </div>
         </div>
         <div className="flex  flex-col sm:flex-row  items-center gap-4 text-sm text-muted-foreground">
-          <Link href="https://x.com/emojipayit" prefetch={false}>
+          <Link href="https://x.com/oktopayit" prefetch={false}>
             Terms & Conditions
           </Link>
-          <Link href="https://x.com/emojipayit" prefetch={false}>
+          <Link href="https://x.com/oktopayit" prefetch={false}>
             Privacy Policy
           </Link>
-          <Link href="https://x.com/emojipayit" prefetch={false}>
+          <Link href="https://x.com/oktopayit" prefetch={false}>
             Contact
           </Link>
           <span className="text-white">© Copyright {new Date().getFullYear()}</span>

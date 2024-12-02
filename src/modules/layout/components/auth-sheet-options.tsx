@@ -12,7 +12,7 @@ const AuthSheetOptions = ({ open, setOpen }: { open: boolean; setOpen: (newValue
           <SheetTitle>Profile actions</SheetTitle>
         </SheetHeader>
         <div className="w-full mt-4 flex flex-col">
-          <Link href="https://x.com/emojipayit" target="_blank">
+          <Link href="https://x.com/oktopayit" target="_blank">
             <Button variant="outline" className="w-full">
               🛠️ Contact support
             </Button>

@@ -44,7 +44,7 @@ export const ViewPortfolioSheet = ({ open, setOpen }: { open: boolean; setOpen: 
               <img src="https://img.cryptorank.io/coins/base1682407673437.png" className="w-6 h-6 round-full" />
             </div>
             <div className="flex-1 flex flex-col">
-              <b>{user.emojis}-emojipay.base.eth</b>
+              <b>{user.emojis}-oktopay.base.eth</b>
               <span className="text-zinc-400">Handlename by base to identify your account</span>
             </div>
           </div>
